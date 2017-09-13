@@ -1,0 +1,68 @@
+package com.droid.manasshrestha.contentportalhome;
+
+public class VideoItemModel {
+
+    int videoId;
+    String title;
+    VideoType videoType;
+
+    int thumbnailId;
+
+    boolean favorite;
+    VideoState videoState;
+
+    public enum VideoType {
+        NORMAL,
+        VR
+    }
+
+
+    public enum VideoState {
+        DEFAULT,
+        DOWNLOADING,
+        DOWNLOADED,
+        DOWNLOAD_FAILED,
+        ERROR,
+        FAVORITE_TRANSITION
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getThumbnailId() {
+        return thumbnailId;
+    }
+
+    public void setThumbnailId(int thumbnailId) {
+        this.thumbnailId = thumbnailId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public VideoType getVideoType() {
+        return videoType;
+    }
+
+    public void setVideoType(VideoType videoType) {
+        this.videoType = videoType;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public VideoState getVideoState() {
+        return videoState;
+    }
+
+    public void setVideoState(VideoState videoState) {
+        this.videoState = videoState;
+    }
+}

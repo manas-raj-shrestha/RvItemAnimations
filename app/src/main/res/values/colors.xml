@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#F44336</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_download_progress">#979797</color>
+    <color name="color_download_background">#4A90E2</color>
+    <color name="color_favorite_background">#FF6090</color>
+    <color name="color_default_background">#607D8B</color>
+</resources>

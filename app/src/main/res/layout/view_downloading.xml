@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#80000000"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.droid.manasshrestha.contentportalhome.itemview.BouncingCircleView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/bouncing_circle_view"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:text="Downloading..."
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:paddingRight="8dp"
+        android:paddingBottom="10dp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom|right"
+        android:layout_width="79dp"
+        android:text="Cancel"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
