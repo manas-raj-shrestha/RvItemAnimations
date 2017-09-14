@@ -5,9 +5,8 @@ public class VideoItemModel {
     int videoId;
     String title;
     VideoType videoType;
-
+    boolean isDownloaded;
     int thumbnailId;
-
     boolean favorite;
     VideoState videoState;
 
@@ -15,7 +14,6 @@ public class VideoItemModel {
         NORMAL,
         VR
     }
-
 
     public enum VideoState {
         DEFAULT,
@@ -60,6 +58,14 @@ public class VideoItemModel {
 
     public VideoState getVideoState() {
         return videoState;
+    }
+
+    public boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setDownloaded(boolean downloaded) {
+        isDownloaded = downloaded;
     }
 
     public void setVideoState(VideoState videoState) {

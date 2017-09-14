@@ -29,14 +29,15 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new VideoViewAdapter.ViewHolder(new VideoView(parent.getContext()));
+        VideoView videoView = new VideoView(parent.getContext());
+        videoView.setEditObservable(editObservable);
+        return new VideoViewAdapter.ViewHolder(videoView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         VideoView videoView = (VideoView) holder.itemView;
         ((VideoView) holder.itemView).setVideoModel(videoItemModels.get(position), holder);
-        ((VideoView) holder.itemView).setEditObservable(editObservable);
         videoView.setEditMode(((EditListener)(holder.itemView.getContext())).getEditStatus(), false);
     }
 
@@ -69,9 +70,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
         } else {
             //favorite
             HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
+//            viewHolder.itemView.setX(0);
+//            viewHolder.itemView.setTranslationX(0);
             videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.FAVORITE_TRANSITION);
             videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
             notifyItemChanged(viewHolder.getAdapterPosition());
+//            ((VideoView) viewHolder.itemView).startFavoriteAnimation();
         }
     }
 

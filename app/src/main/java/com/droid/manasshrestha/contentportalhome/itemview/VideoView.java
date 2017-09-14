@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -113,23 +114,22 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     @Override
-    public void onVideoStateChanged(VideoItemModel.VideoState videoState) {
-        switch (videoState) {
+    public void onVideoStateChanged(VideoItemModel.VideoState state) {
+        switch (state) {
             case ERROR:
                 activateErrorState();
                 break;
             case DEFAULT:
-                if (rvContainer.getChildCount() > initialViewCount)
-                    rvContainer.removeViewAt(initialViewCount);
+                if (videoModel.isFavorite())
+                    ivFavorite.setVisibility(VISIBLE);
 
+                if (videoModel.isDownloaded())
+                    tvDownloaded.setVisibility(VISIBLE);
                 break;
             case DOWNLOADED:
-                activateDownloadedState();
+                activateDownloadedState(true);
                 break;
             case DOWNLOAD_FAILED:
-                if (rvContainer.getChildCount() > initialViewCount)
-                    rvContainer.removeViewAt(initialViewCount);
-
                 activateErrorState();
                 break;
             case DOWNLOADING:
@@ -142,15 +142,20 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     private void activateErrorState() {
+
+        if (rvContainer.getChildCount() > initialViewCount)
+            rvContainer.removeViewAt(initialViewCount);
+
         if (rvContainer.getChildCount() <= initialViewCount) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.view_error, null);
-
             rvContainer.addView(view);
         }
+
     }
 
-    private void activateDownloadedState() {
+    private void activateDownloadedState(boolean animate) {
         videoModel.setVideoState(VideoItemModel.VideoState.DOWNLOADED);
+        videoModel.setDownloaded(true);
         if (rvContainer.getChildCount() > initialViewCount) {
             View view = rvContainer.getChildAt(initialViewCount);
 
@@ -190,9 +195,12 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
     }
 
-
     private void activateDownloadingState() {
         View view = null;
+
+        ObjectAnimator downloadIconAnimation = ObjectAnimator.ofFloat(tvDownload, "alpha", 1f, 0f);
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(rlThumbnailContainer, "alpha", 0f, 1f);
+        ObjectAnimator videoNameAnimator = ObjectAnimator.ofFloat(tvVideoName, "alpha", 1f, 0f);
 
         if (rvContainer.getChildCount() <= initialViewCount) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.view_downloading, null);
@@ -203,11 +211,11 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         rlUnderlyingContainer.findViewById(R.id.tv_favorite).setVisibility(GONE);
         rlThumbnailContainer.setAlpha(0f);
 
-        ObjectAnimator downloadIconAnimation = ObjectAnimator.ofFloat(tvDownload, "alpha", 1f, 0f);
+
         downloadIconAnimation.setDuration(200);
         downloadIconAnimation.start();
 
-        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(rlThumbnailContainer, "alpha", 0f, 1f);
+
         if (view != null) {
             ObjectAnimator alphaAnimatorDownloadingView = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
             alphaAnimatorDownloadingView.setDuration(2 * ANIMATION_DURATION);
@@ -244,7 +252,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
         alphaAnimator.start();
 
-        ObjectAnimator videoNameAnimator = ObjectAnimator.ofFloat(tvVideoName, "alpha", 1f, 0f);
+
         videoNameAnimator.setDuration(2 * ANIMATION_DURATION);
         videoNameAnimator.start();
     }
@@ -259,7 +267,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             ivFavorite.setVisibility(GONE);
 
         onVideoStateChanged(videoModel.getVideoState());
-//        Glide.with(getContext()).load(videoModel.getThumbnailId()).into(ivThumbnail);
+        Glide.with(getContext()).load(videoModel.getThumbnailId()).into(ivThumbnail);
 
         // Start a drag whenever the handle view it touched
         ivMover.setVisibility(GONE);
@@ -275,7 +283,9 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     public void addToFavorite() {
+//        Log.e("previous state", previousState.name());
         videoModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
+        onVideoStateChanged(VideoItemModel.VideoState.DEFAULT);
         tvDownload.setVisibility(GONE);
 
         ObjectAnimator downloadIconAnimation = ObjectAnimator.ofFloat(tvFavorite, "alpha", 1f, 0f);
@@ -303,7 +313,6 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                onVideoStateChanged(VideoItemModel.VideoState.DEFAULT);
                 Animation bounceAnim = new ScaleAnimation(
                         1.5f, 1f, // Start and end values for the X axis scaling
                         1.5f, 1f, // Start and end values for the Y axis scaling
@@ -320,6 +329,14 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         });
 
         alphaAnimator.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        if (rvContainer.getChildCount() > initialViewCount)
+            rvContainer.removeViewAt(initialViewCount);
+        super.onDetachedFromWindow();
+
     }
 
     public void setEditObservable(ConnectableObservable<Boolean> editObservable) {
@@ -416,4 +433,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
 
+    public void startFavoriteAnimation() {
+        addToFavorite();
+    }
 }

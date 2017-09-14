@@ -115,7 +115,6 @@ public class BouncingCircleView extends View {
             @Override
             public void onNext(Integer integer) {
                 sweepAngle = (integer.floatValue() / 200f) * 360f;
-
                 invalidate();
             }
 
@@ -173,7 +172,7 @@ public class BouncingCircleView extends View {
         canvas.drawCircle(width / 2, height / 2, intermediateRadius, paint);
 
         paint.setStyle(Paint.Style.FILL);
-        RectF rectF = new RectF(viewMargin, viewMargin , width - viewMargin , height - viewMargin );
+        RectF rectF = new RectF(viewMargin, viewMargin, width - viewMargin, height - viewMargin);
         canvas.drawArc(rectF, START_ANGLE, sweepAngle, true, paint);
     }
 
