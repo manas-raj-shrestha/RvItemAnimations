@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -114,7 +113,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     @Override
-    public void onVideoStateChanged(VideoItemModel.VideoState state) {
+    public void onVideoStateChanged(VideoItemModel.VideoState state, boolean animate) {
         switch (state) {
             case ERROR:
                 activateErrorState();
@@ -122,9 +121,14 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             case DEFAULT:
                 if (videoModel.isFavorite())
                     ivFavorite.setVisibility(VISIBLE);
+                else
+                    ivFavorite.setVisibility(GONE);
 
                 if (videoModel.isDownloaded())
                     tvDownloaded.setVisibility(VISIBLE);
+                else
+                    tvDownloaded.setVisibility(GONE);
+
                 break;
             case DOWNLOADED:
                 activateDownloadedState(true);
@@ -154,8 +158,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     private void activateDownloadedState(boolean animate) {
-        videoModel.setVideoState(VideoItemModel.VideoState.DOWNLOADED);
         videoModel.setDownloaded(true);
+        videoModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
         if (rvContainer.getChildCount() > initialViewCount) {
             View view = rvContainer.getChildAt(initialViewCount);
 
@@ -266,7 +270,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         else
             ivFavorite.setVisibility(GONE);
 
-        onVideoStateChanged(videoModel.getVideoState());
+        onVideoStateChanged(videoModel.getVideoState(), true);
         Glide.with(getContext()).load(videoModel.getThumbnailId()).into(ivThumbnail);
 
         // Start a drag whenever the handle view it touched
@@ -283,9 +287,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     }
 
     public void addToFavorite() {
-//        Log.e("previous state", previousState.name());
         videoModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
-        onVideoStateChanged(VideoItemModel.VideoState.DEFAULT);
+        onVideoStateChanged(VideoItemModel.VideoState.DEFAULT, true);
         tvDownload.setVisibility(GONE);
 
         ObjectAnimator downloadIconAnimation = ObjectAnimator.ofFloat(tvFavorite, "alpha", 1f, 0f);

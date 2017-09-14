@@ -12,7 +12,8 @@ public class VideoItemModel {
 
     public enum VideoType {
         NORMAL,
-        VR
+        VR,
+        V360
     }
 
     public enum VideoState {

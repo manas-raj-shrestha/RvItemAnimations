@@ -70,7 +70,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
 
-        if (videoItemModel.getVideoState() == VideoItemModel.VideoState.DOWNLOADED && swipeDirection == ItemTouchHelper.END)
+        if (videoItemModel.isDownloaded() && swipeDirection == ItemTouchHelper.END)
             return 1000;
         else if (videoItemModel.isFavorite() && swipeDirection == ItemTouchHelper.START)
             return 1000;
@@ -80,7 +80,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public float getSwipeVelocityThreshold(float defaultValue) {
-        if (videoItemModel.getVideoState() == VideoItemModel.VideoState.DOWNLOADED && swipeDirection == ItemTouchHelper.END)
+        if (videoItemModel.isDownloaded() && swipeDirection == ItemTouchHelper.END)
             return 0;
         else if (videoItemModel.isFavorite() && swipeDirection == ItemTouchHelper.START)
             return 0;
@@ -97,7 +97,6 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         View view = viewHolder.itemView;
-        Log.e("current x", String.valueOf(dX));
         if (dX != 0) {
             RectF rectF = new RectF(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
             drawUnderLyingView(c, rectF, dX);
@@ -131,7 +130,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
         }
 
         TextView tvDownload = ((TextView) underLyingView.findViewById(R.id.tv_download));
-        if (videoItemModel.getVideoState() == VideoItemModel.VideoState.DOWNLOADED) {
+        if (videoItemModel.isDownloaded()) {
             tvDownload.setText("Downloaded");
             tvDownload.setTextSize(6);
         } else {

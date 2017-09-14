@@ -125,7 +125,7 @@ public class BouncingCircleView extends View {
             @Override
             public void onComplete() {
                 if (videoStateListener != null)
-                    videoStateListener.onVideoStateChanged(VideoItemModel.VideoState.DOWNLOADED);
+                    videoStateListener.onVideoStateChanged(VideoItemModel.VideoState.DOWNLOADED, true);
             }
         });
 

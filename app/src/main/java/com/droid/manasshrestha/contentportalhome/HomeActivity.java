@@ -11,7 +11,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.droid.manasshrestha.contentportalhome.itemmovehelper.ItemMoveAdapter;
 import com.droid.manasshrestha.contentportalhome.itemmovehelper.SimpleItemMoveHelper;
@@ -87,7 +86,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit) {
-            editModeOn =!editModeOn;
+            editModeOn = !editModeOn;
             e.onNext(editModeOn);
             return true;
         }
@@ -151,6 +150,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DOWNLOADING);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
         videoItemModel2.setThumbnailId(R.drawable.world_of_autism);
+        videoItemModel2.setVideoType(VideoItemModel.VideoType.V360);
         videoItemModels.add(videoItemModel2);
 
         VideoItemModel videoItemModel3 = new VideoItemModel();
@@ -159,13 +159,14 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModel3.setVideoState(VideoItemModel.VideoState.ERROR);
         videoItemModel3.setVideoType(VideoItemModel.VideoType.NORMAL);
         videoItemModel3.setThumbnailId(R.drawable.upside_down);
+        videoItemModel3.setVideoType(VideoItemModel.VideoType.NORMAL);
         videoItemModels.add(videoItemModel3);
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
         videoItemModel2.setTitle("Steven Wilson - Pariah");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
-        videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
+        videoItemModel2.setVideoType(VideoItemModel.VideoType.VR);
         videoItemModel2.setThumbnailId(R.drawable.pariah);
         videoItemModels.add(videoItemModel2);
 
@@ -222,7 +223,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModel2.setFavorite(false);
         videoItemModel2.setTitle("The Barber of Seville");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
-        videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
+        videoItemModel2.setVideoType(VideoItemModel.VideoType.V360);
         videoItemModel2.setThumbnailId(R.drawable.opera);
         videoItemModels.add(videoItemModel2);
 
@@ -237,9 +238,19 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         VideoItemModel videoItemModel = new VideoItemModel();
         videoItemModel.setFavorite(false);
         videoItemModel.setTitle("Travel Nepal - Pokhara");
-        videoItemModel.setVideoState(VideoItemModel.VideoState.DOWNLOADED);
-        videoItemModel.setVideoType(VideoItemModel.VideoType.NORMAL);
+        videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
+        videoItemModel.setDownloaded(true);
+        videoItemModel.setVideoType(VideoItemModel.VideoType.VR);
         videoItemModel.setThumbnailId(R.drawable.travel_nepal);
+        videoItemModels.add(videoItemModel);
+
+        videoItemModel = new VideoItemModel();
+        videoItemModel.setFavorite(false);
+        videoItemModel.setTitle("Natgeo Travel - Rio");
+        videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
+        videoItemModel.setVideoType(VideoItemModel.VideoType.VR);
+        videoItemModel.setDownloaded(true);
+        videoItemModel.setThumbnailId(R.drawable.rio);
         videoItemModels.add(videoItemModel);
 
         return videoItemModels;
