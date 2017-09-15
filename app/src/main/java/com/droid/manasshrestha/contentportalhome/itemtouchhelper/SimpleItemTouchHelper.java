@@ -72,8 +72,6 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
         if (videoItemModel.isDownloaded() && swipeDirection == ItemTouchHelper.END)
             return 1000;
-        else if (videoItemModel.isFavorite() && swipeDirection == ItemTouchHelper.START)
-            return 1000;
         else
             return SWIPE_THRESHOLD;
     }
@@ -81,8 +79,6 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public float getSwipeVelocityThreshold(float defaultValue) {
         if (videoItemModel.isDownloaded() && swipeDirection == ItemTouchHelper.END)
-            return 0;
-        else if (videoItemModel.isFavorite() && swipeDirection == ItemTouchHelper.START)
             return 0;
         else
             return super.getSwipeVelocityThreshold(defaultValue);
@@ -130,12 +126,21 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
         }
 
         TextView tvDownload = ((TextView) underLyingView.findViewById(R.id.tv_download));
+        TextView tvFavorite = ((TextView) underLyingView.findViewById(R.id.tv_favorite));
         if (videoItemModel.isDownloaded()) {
             tvDownload.setText("Downloaded");
             tvDownload.setTextSize(6);
         } else {
             ((TextView) underLyingView.findViewById(R.id.tv_download)).setText("Download");
             tvDownload.setTextSize(8);
+        }
+
+        if (videoItemModel.isFavorite()) {
+            tvFavorite.setText("Unfavorite");
+            tvFavorite.setTextSize(6);
+        } else {
+            tvFavorite.setText("Favorite");
+            tvFavorite.setTextSize(8);
         }
 
         canvas.save();

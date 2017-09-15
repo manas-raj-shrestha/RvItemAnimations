@@ -69,9 +69,17 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
             notifyItemChanged(viewHolder.getAdapterPosition());
         } else {
             //favorite
-            HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
-            videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.FAVORITE_TRANSITION);
-            videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
+            if (!videoItemModels.get(viewHolder.getAdapterPosition()).isFavorite()) {
+                HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
+                videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.FAVORITE_TRANSITION);
+                videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
+            }else {
+                HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(false);
+                videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.UNFAVORITE_TRANSITION);
+                videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(
+                        false
+                );
+            }
             notifyItemChanged(viewHolder.getAdapterPosition());
         }
     }

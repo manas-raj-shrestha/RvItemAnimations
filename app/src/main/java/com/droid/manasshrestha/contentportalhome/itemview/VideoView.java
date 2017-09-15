@@ -55,8 +55,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     @BindView(R.id.rl_thumbnail_container)
     RelativeLayout rlThumbnailContainer;
 
-    @BindView(R.id.tv_downloaded)
-    TextView tvDownloaded;
+    @BindView(R.id.iv_downloaded)
+    ImageView ivDownloaded;
 
     @BindView(R.id.rl_underlying_container)
     RelativeLayout rlUnderlyingContainer;
@@ -125,9 +125,9 @@ public class VideoView extends FrameLayout implements ViewStateListener {
                     ivFavorite.setVisibility(GONE);
 
                 if (videoModel.isDownloaded())
-                    tvDownloaded.setVisibility(VISIBLE);
+                    ivDownloaded.setVisibility(VISIBLE);
                 else
-                    tvDownloaded.setVisibility(GONE);
+                    ivDownloaded.setVisibility(GONE);
 
                 break;
             case DOWNLOADED:
@@ -142,7 +142,59 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             case FAVORITE_TRANSITION:
                 addToFavorite();
                 break;
+            case UNFAVORITE_TRANSITION:
+                unfavoriteVideos();
+                break;
         }
+    }
+
+    private void unfavoriteVideos() {
+        videoModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
+        onVideoStateChanged(VideoItemModel.VideoState.DEFAULT, true);
+        tvDownload.setVisibility(GONE);
+
+        ObjectAnimator downloadIconAnimation = ObjectAnimator.ofFloat(tvFavorite, "alpha", 1f, 0f);
+        downloadIconAnimation.setDuration(200);
+        downloadIconAnimation.start();
+
+        rlUnderlyingContainer.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_favorite_background));
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(rlThumbnailContainer, "alpha", 0f, 1f);
+        alphaAnimator.setDuration(2 * ANIMATION_DURATION);
+
+        Animation anim = new ScaleAnimation(
+                1f, 1.5f, // Start and end values for the X axis scaling
+                1f, 1.5f, // Start and end values for the Y axis scaling
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+        anim.setStartOffset(ANIMATION_DURATION);
+        anim.setDuration(250);
+        ivFavorite.startAnimation(anim);
+
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                ivFavorite.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Animation bounceAnim = new ScaleAnimation(
+                        1.5f, 0f, // Start and end values for the X axis scaling
+                        1.5f, 0f, // Start and end values for the Y axis scaling
+                        Animation.RELATIVE_TO_SELF, 0.5f, // Pivot point of X scaling
+                        Animation.RELATIVE_TO_SELF, 0.5f); // Pivot point of Y scaling
+                bounceAnim.setDuration(250);
+                bounceAnim.setFillAfter(true);
+                ivFavorite.startAnimation(bounceAnim);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        alphaAnimator.start();
     }
 
     private void activateErrorState() {
@@ -175,7 +227,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
                 public void onAnimationEnd(Animator animator) {
                     if (rvContainer.getChildCount() > initialViewCount) {
                         rvContainer.removeViewAt(initialViewCount);
-                        tvDownloaded.setVisibility(VISIBLE);
+                        ivDownloaded.setVisibility(VISIBLE);
                     }
                 }
 
@@ -193,8 +245,12 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             alphaAnimatorDownloadingView.start();
 
             ObjectAnimator videoNameAnimator = ObjectAnimator.ofFloat(tvVideoName, "alpha", 0f, 1f);
-            videoNameAnimator.setDuration(ANIMATION_DURATION);
+            videoNameAnimator.setDuration(2 * ANIMATION_DURATION);
             videoNameAnimator.start();
+
+            ObjectAnimator downloadedIconAnimator = ObjectAnimator.ofFloat(ivDownloaded, "alpha", 0f, 1f);
+            downloadedIconAnimator.setDuration(2 * ANIMATION_DURATION);
+            downloadedIconAnimator.start();
         }
 
     }

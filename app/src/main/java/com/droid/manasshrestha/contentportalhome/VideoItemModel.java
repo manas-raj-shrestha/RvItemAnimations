@@ -22,7 +22,7 @@ public class VideoItemModel {
         DOWNLOADED,
         DOWNLOAD_FAILED,
         ERROR,
-        FAVORITE_TRANSITION
+        UNFAVORITE_TRANSITION, FAVORITE_TRANSITION
     }
 
     public String getTitle() {
