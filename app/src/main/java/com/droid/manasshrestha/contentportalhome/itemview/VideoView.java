@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -349,6 +350,15 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         else
             ivFavorite.setVisibility(GONE);
 
+        if (multiSelectListener.isSelectedVideo(String.valueOf(videoModel.getVideoId()))){
+            ivCheck.setTag(".");
+            Log.e("check", videoModel.getTitle());
+            ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_checked));
+        }else {
+            ivCheck.setTag(null);
+            ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
+        }
+
         onVideoStateChanged(videoModel.getVideoState(), true);
         Glide.with(getContext()).load(videoModel.getThumbnailId()).into(ivThumbnail);
 
@@ -480,6 +490,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             textSizeAnim.start();
 
         } else if (!editStatus && animate) {
+            ivCheck.setTag(null);
+            ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
             TranslateAnimation reverseDragArrowAnim = new TranslateAnimation(0, screenWidth - ivMover.getX(), 0, 0);
             reverseDragArrowAnim.setDuration(editAnimDuration);
             reverseDragArrowAnim.setInterpolator(new DecelerateInterpolator(1.5f));

@@ -97,6 +97,11 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
         Log.e("lists", selectedIds.toString());
     }
 
+    @Override
+    public boolean isSelectedVideo(String id) {
+        return selectedIds.contains(id);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_video_name)
         TextView tvVideoName;

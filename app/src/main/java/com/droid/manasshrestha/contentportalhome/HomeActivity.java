@@ -247,7 +247,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModels.add(videoItemModel2);
 
         VideoItemModel videoItemModel = new VideoItemModel();
-        videoItemModel2.setVideoId(11);
+        videoItemModel.setVideoId(11);
         videoItemModel.setFavorite(false);
         videoItemModel.setTitle("Travel Nepal - Pokhara");
         videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
@@ -258,7 +258,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel = new VideoItemModel();
         videoItemModel.setFavorite(false);
-        videoItemModel2.setVideoId(12);
+        videoItemModel.setVideoId(12);
         videoItemModel.setTitle("Natgeo Travel - Rio");
         videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel.setVideoType(VideoItemModel.VideoType.VR);
