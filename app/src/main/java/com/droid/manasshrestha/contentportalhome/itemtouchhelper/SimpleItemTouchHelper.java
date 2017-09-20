@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         itemTouchHelperAdapter.onItemMove(viewHolder.getAdapterPosition(),
                 target.getAdapterPosition());
+        Log.e("set", "set");
         return true;
     }
 
@@ -91,6 +93,14 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        Log.e("moved", "moved " + dY);
+
+        if (dY > 0) {
+            viewHolder.itemView.setAlpha(0.8f);
+        } else {
+            viewHolder.itemView.setAlpha(1f);
+        }
+
         View view = viewHolder.itemView;
         if (dX != 0) {
             RectF rectF = new RectF(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
