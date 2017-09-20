@@ -6,7 +6,6 @@ import android.graphics.RectF;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -128,10 +127,12 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
         TextView tvDownload = ((TextView) underLyingView.findViewById(R.id.tv_download));
         TextView tvFavorite = ((TextView) underLyingView.findViewById(R.id.tv_favorite));
         if (videoItemModel.isDownloaded()) {
+            tvDownload.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_check_white_24dp, 0, 0);
             tvDownload.setText("Downloaded");
             tvDownload.setTextSize(6);
         } else {
-            ((TextView) underLyingView.findViewById(R.id.tv_download)).setText("Download");
+            tvDownload.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_file_download_white_24dp, 0, 0);
+            tvDownload.setText("Download");
             tvDownload.setTextSize(8);
         }
 

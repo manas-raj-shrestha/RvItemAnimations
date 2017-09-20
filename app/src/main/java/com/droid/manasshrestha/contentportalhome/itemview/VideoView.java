@@ -423,8 +423,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             ivMover.setVisibility(VISIBLE);
             TranslateAnimation dragArrowAnim = new TranslateAnimation(screenWidth - ivMover.getX(), 0, 0, 0);
             dragArrowAnim.setDuration(editAnimDuration);
-            ivMover.setAnimation(dragArrowAnim);
             dragArrowAnim.setInterpolator(new DecelerateInterpolator(1.5f));
+            ivMover.setAnimation(dragArrowAnim);
             ivMover.animate();
 
             parentHeightAnim.setDuration(editAnimDuration);
@@ -459,8 +459,8 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         } else if (!editStatus && animate) {
             TranslateAnimation reverseDragArrowAnim = new TranslateAnimation(0, screenWidth - ivMover.getX(), 0, 0);
             reverseDragArrowAnim.setDuration(editAnimDuration);
-            ivMover.setAnimation(reverseDragArrowAnim);
             reverseDragArrowAnim.setInterpolator(new DecelerateInterpolator(1.5f));
+            ivMover.setAnimation(reverseDragArrowAnim);
             ivMover.animate();
 
             reverseParentHeightAnim.setDuration(editAnimDuration);
