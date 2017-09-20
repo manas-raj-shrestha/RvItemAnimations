@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
@@ -423,9 +424,12 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             TranslateAnimation dragArrowAnim = new TranslateAnimation(screenWidth - ivMover.getX(), 0, 0, 0);
             dragArrowAnim.setDuration(editAnimDuration);
             ivMover.setAnimation(dragArrowAnim);
+            dragArrowAnim.setInterpolator(new DecelerateInterpolator(1.5f));
             ivMover.animate();
 
             parentHeightAnim.setDuration(editAnimDuration);
+            parentHeightAnim.setInterpolator(new DecelerateInterpolator(1.5f));
+
             parentHeightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     flParent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (float) animation.getAnimatedValue()));
@@ -433,6 +437,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             });
 
             ValueAnimator containerWidthAnim = ValueAnimator.ofFloat(rvContainer.getWidth(), DisplayUtils.convertDpToPixel(296));
+            containerWidthAnim.setInterpolator(new DecelerateInterpolator(1.5f));
             containerWidthAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     rvContainer.setLayoutParams(new RelativeLayout.LayoutParams((int) (float) animation.getAnimatedValue(), ViewGroup.LayoutParams.MATCH_PARENT));
@@ -455,9 +460,11 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             TranslateAnimation reverseDragArrowAnim = new TranslateAnimation(0, screenWidth - ivMover.getX(), 0, 0);
             reverseDragArrowAnim.setDuration(editAnimDuration);
             ivMover.setAnimation(reverseDragArrowAnim);
+            reverseDragArrowAnim.setInterpolator(new DecelerateInterpolator(1.5f));
             ivMover.animate();
 
             reverseParentHeightAnim.setDuration(editAnimDuration);
+            reverseParentHeightAnim.setInterpolator(new DecelerateInterpolator(1.5f));
             reverseParentHeightAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     flParent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (float) animation.getAnimatedValue()));
@@ -465,6 +472,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             });
 
             ValueAnimator reverseContainerWidthAnim = ValueAnimator.ofFloat(DisplayUtils.convertDpToPixel(296), screenWidth);
+            reverseContainerWidthAnim.setInterpolator(new DecelerateInterpolator(1.5f));
             reverseContainerWidthAnim.setDuration(editAnimDuration);
             reverseContainerWidthAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
