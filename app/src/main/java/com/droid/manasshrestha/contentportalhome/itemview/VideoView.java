@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.droid.manasshrestha.contentportalhome.DisplayUtils;
+import com.droid.manasshrestha.contentportalhome.MultiSelectListener;
 import com.droid.manasshrestha.contentportalhome.R;
 import com.droid.manasshrestha.contentportalhome.VideoItemModel;
 import com.droid.manasshrestha.contentportalhome.VideoViewAdapter;
@@ -66,6 +66,9 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     @BindView(R.id.tv_video_name)
     TextView tvVideoName;
 
+    @BindView(R.id.iv_check)
+    ImageView ivCheck;
+
     @BindView(R.id.iv_favorite)
     ImageView ivFavorite;
 
@@ -83,6 +86,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
     private VideoItemModel videoModel;
     private int initialViewCount;
+    private MultiSelectListener multiSelectListener;
 
     public VideoView(@NonNull Context context) {
         this(context, null, 0);
@@ -105,6 +109,23 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         LayoutInflater.from(getContext()).inflate(R.layout.video_view, this);
         ButterKnife.bind(this);
         initialViewCount = rvContainer.getChildCount();
+
+        ivCheck.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ivCheck.getTag() == null) {
+                    //add to list
+                    ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_checked));
+                    ivCheck.setTag(".");
+                    multiSelectListener.onSelectChange(true, String.valueOf(videoModel.getVideoId()));
+                } else {
+                    //remove from list
+                    ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
+                    ivCheck.setTag(null);
+                    multiSelectListener.onSelectChange(false, String.valueOf(videoModel.getVideoId()));
+                }
+            }
+        });
     }
 
     @Override
@@ -421,6 +442,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             flParent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DisplayUtils.convertDpToPixel(96)));
             ivMover.setVisibility(VISIBLE);
         } else if (editStatus && animate) {
+            ivCheck.setVisibility(VISIBLE);
             ivMover.setVisibility(VISIBLE);
             TranslateAnimation dragArrowAnim = new TranslateAnimation(screenWidth - ivMover.getX(), 0, 0, 0);
             dragArrowAnim.setDuration(editAnimDuration);
@@ -491,11 +513,13 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             reverseParentHeightAnim.start();
             reverseContainerWidthAnim.start();
             reverseTextSizeAnim.start();
+            ivCheck.setVisibility(GONE);
 
         } else {
             flParent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DisplayUtils.convertDpToPixel(112)));
             rvContainer.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             ivMover.setVisibility(GONE);
+            ivCheck.setVisibility(GONE);
         }
 
     }
@@ -503,5 +527,9 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
     public void startFavoriteAnimation() {
         addToFavorite();
+    }
+
+    public void setMultiSelectListener(MultiSelectListener multiSelectListener) {
+        this.multiSelectListener = multiSelectListener;
     }
 }

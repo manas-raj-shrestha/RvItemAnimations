@@ -2,6 +2,14 @@ package com.droid.manasshrestha.contentportalhome;
 
 public class VideoItemModel {
 
+    public int getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(int videoId) {
+        this.videoId = videoId;
+    }
+
     int videoId;
     String title;
     VideoType videoType;

@@ -146,6 +146,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         VideoItemModel videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(0);
         videoItemModel2.setTitle("World of Autism");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DOWNLOADING);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -155,6 +156,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         VideoItemModel videoItemModel3 = new VideoItemModel();
         videoItemModel3.setFavorite(false);
+        videoItemModel3.setVideoId(1);
         videoItemModel3.setTitle("OK Go - Upside Down & Inside Out");
         videoItemModel3.setVideoState(VideoItemModel.VideoState.ERROR);
         videoItemModel3.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -164,6 +166,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(2);
         videoItemModel2.setTitle("Steven Wilson - Pariah");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.VR);
@@ -173,6 +176,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(3);
         videoItemModel2.setTitle("Happiness is a choice");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -181,6 +185,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(4);
         videoItemModel2.setTitle("Taylor Swift - Style");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -189,6 +194,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(5);
         videoItemModel2.setTitle("Uptown Funk");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -197,6 +203,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(6);
         videoItemModel2.setTitle("Share a coke this holiday");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -205,6 +212,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
+        videoItemModel2.setVideoId(7);
         videoItemModel2.setTitle("Design on the outside. Fun on the inside");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel2.setVideoType(VideoItemModel.VideoType.NORMAL);
@@ -212,6 +220,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModels.add(videoItemModel2);
 
         videoItemModel2 = new VideoItemModel();
+        videoItemModel2.setVideoId(8);
         videoItemModel2.setFavorite(false);
         videoItemModel2.setTitle("Despacito");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
@@ -220,6 +229,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModels.add(videoItemModel2);
 
         videoItemModel2 = new VideoItemModel();
+        videoItemModel2.setVideoId(9);
         videoItemModel2.setFavorite(false);
         videoItemModel2.setTitle("The Barber of Seville");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
@@ -228,6 +238,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModels.add(videoItemModel2);
 
         videoItemModel2 = new VideoItemModel();
+        videoItemModel2.setVideoId(10);
         videoItemModel2.setFavorite(false);
         videoItemModel2.setTitle("Sky Dive Dubai");
         videoItemModel2.setVideoState(VideoItemModel.VideoState.DEFAULT);
@@ -236,6 +247,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModels.add(videoItemModel2);
 
         VideoItemModel videoItemModel = new VideoItemModel();
+        videoItemModel2.setVideoId(11);
         videoItemModel.setFavorite(false);
         videoItemModel.setTitle("Travel Nepal - Pokhara");
         videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
@@ -246,6 +258,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         videoItemModel = new VideoItemModel();
         videoItemModel.setFavorite(false);
+        videoItemModel2.setVideoId(12);
         videoItemModel.setTitle("Natgeo Travel - Rio");
         videoItemModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
         videoItemModel.setVideoType(VideoItemModel.VideoType.VR);

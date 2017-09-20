@@ -93,9 +93,8 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        Log.e("moved", "moved " + dY);
 
-        if (dY > 0) {
+        if (dY != 0) {
             viewHolder.itemView.setAlpha(0.8f);
         } else {
             viewHolder.itemView.setAlpha(1f);

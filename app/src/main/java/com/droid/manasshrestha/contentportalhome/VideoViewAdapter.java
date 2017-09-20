@@ -2,6 +2,7 @@ package com.droid.manasshrestha.contentportalhome;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -11,16 +12,17 @@ import com.droid.manasshrestha.contentportalhome.itemview.VideoView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
 import io.reactivex.observables.ConnectableObservable;
 
-public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.ViewHolder> implements ItemTouchHelperAdapter {
+public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.ViewHolder> implements ItemTouchHelperAdapter, MultiSelectListener {
 
     ArrayList<VideoItemModel> videoItemModels;
     ConnectableObservable<Boolean> editObservable;
+    List<String> selectedIds = new ArrayList<>();
 
     public VideoViewAdapter(ArrayList<VideoItemModel> videoItemModels, HomeActivity homeActivity, ConnectableObservable<Boolean> booleanObservable) {
         this.videoItemModels = videoItemModels;
@@ -31,6 +33,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         VideoView videoView = new VideoView(parent.getContext());
         videoView.setEditObservable(editObservable);
+        videoView.setMultiSelectListener(this);
         return new VideoViewAdapter.ViewHolder(videoView);
     }
 
@@ -38,7 +41,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         VideoView videoView = (VideoView) holder.itemView;
         ((VideoView) holder.itemView).setVideoModel(videoItemModels.get(position), holder);
-        videoView.setEditMode(((EditListener)(holder.itemView.getContext())).getEditStatus(), false);
+        videoView.setEditMode(((EditListener) (holder.itemView.getContext())).getEditStatus(), false);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
                 HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
                 videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.FAVORITE_TRANSITION);
                 videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(true);
-            }else {
+            } else {
                 HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(false);
                 videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.UNFAVORITE_TRANSITION);
                 videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(
@@ -82,6 +85,16 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
             }
             notifyItemChanged(viewHolder.getAdapterPosition());
         }
+    }
+
+    @Override
+    public void onSelectChange(boolean checked, String id) {
+        if (checked)
+            selectedIds.add(id);
+        else
+            selectedIds.remove(id);
+
+        Log.e("lists", selectedIds.toString());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
