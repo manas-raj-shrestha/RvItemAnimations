@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
@@ -350,11 +351,11 @@ public class VideoView extends FrameLayout implements ViewStateListener {
         else
             ivFavorite.setVisibility(GONE);
 
-        if (multiSelectListener.isSelectedVideo(String.valueOf(videoModel.getVideoId()))){
+        if (multiSelectListener.isSelectedVideo(String.valueOf(videoModel.getVideoId()))) {
             ivCheck.setTag(".");
             Log.e("check", videoModel.getTitle());
             ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_checked));
-        }else {
+        } else {
             ivCheck.setTag(null);
             ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
         }
@@ -484,6 +485,12 @@ public class VideoView extends FrameLayout implements ViewStateListener {
                 }
             });
 
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+            alphaAnimation.setDuration(2 * editAnimDuration);
+            alphaAnimation.setStartOffset(editAnimDuration);
+            ivCheck.setAnimation(alphaAnimation);
+            ivCheck.animate();
+
             parentHeightAnim.start();
             containerWidthAnim.setDuration(editAnimDuration);
             containerWidthAnim.start();
@@ -522,10 +529,32 @@ public class VideoView extends FrameLayout implements ViewStateListener {
                 }
             });
 
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+            alphaAnimation.setDuration(2 * editAnimDuration);
+            alphaAnimation.setStartOffset(editAnimDuration);
+            alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    ivCheck.setVisibility(GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            ivCheck.setAnimation(alphaAnimation);
+            ivCheck.animate();
+
             reverseParentHeightAnim.start();
             reverseContainerWidthAnim.start();
             reverseTextSizeAnim.start();
-            ivCheck.setVisibility(GONE);
+//            ivCheck.setVisibility(GONE);
 
         } else {
             flParent.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) DisplayUtils.convertDpToPixel(112)));
