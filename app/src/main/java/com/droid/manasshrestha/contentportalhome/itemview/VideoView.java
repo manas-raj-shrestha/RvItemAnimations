@@ -119,12 +119,12 @@ public class VideoView extends FrameLayout implements ViewStateListener {
                     //add to list
                     ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_checked));
                     ivCheck.setTag(".");
-                    multiSelectListener.onSelectChange(true, String.valueOf(videoModel.getVideoId()));
+                    multiSelectListener.onSelectChange(true, (videoModel.getVideoId()));
                 } else {
                     //remove from list
                     ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
                     ivCheck.setTag(null);
-                    multiSelectListener.onSelectChange(false, String.valueOf(videoModel.getVideoId()));
+                    multiSelectListener.onSelectChange(false, (videoModel.getVideoId()));
                 }
             }
         });

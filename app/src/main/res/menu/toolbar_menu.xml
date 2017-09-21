@@ -5,6 +5,20 @@
     tools:context=".MainActivity">
 
     <item
+        android:visible="false"
+        android:id="@+id/action_favorite"
+        android:title="Favorite"
+        android:icon="@drawable/ic_favorite_color"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/action_download"
+        android:title="Download"
+        android:icon="@drawable/ic_file_download_white_24dp"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_edit"
         android:title="Edit"
         android:icon="@drawable/ic_edit"

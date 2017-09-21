@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
     public static ArrayList<VideoItemModel> videoItemModels;
     ItemTouchHelper touchHelper;
     boolean editModeOn;
-    ObservableEmitter<Boolean> e;
+    ObservableEmitter<Boolean> observableEmitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         ConnectableObservable<Boolean> observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                HomeActivity.this.e = e;
+                HomeActivity.this.observableEmitter = e;
             }
         }).publish();
 
@@ -69,14 +69,6 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         setItemMover();
     }
 
-
-//    private ConnectableObservable<Boolean> setEditObservable() {
-//
-//
-//
-//        return observable;
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -84,11 +76,25 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit) {
-            editModeOn = !editModeOn;
-            e.onNext(editModeOn);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                editModeOn = !editModeOn;
+                observableEmitter.onNext(editModeOn);
+                if (menu.getItem(0).isVisible()) {
+                    menu.getItem(0).setVisible(false);
+                    menu.getItem(1).setVisible(false);
+                } else {
+                    menu.getItem(0).setVisible(true);
+                    menu.getItem(1).setVisible(true);
+                }
+                break;
+            case R.id.action_download:
+                demoAdapter.sendBulkDownloadRequest();
+                break;
+            case R.id.action_favorite:
+                demoAdapter.bulkFavorite();
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,7 +111,6 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
 
         rvItemMover.setLayoutManager(new LinearLayoutManager(this));
         rvItemMover.setAdapter(itemMoveAdapter);
-
 
     }
 
@@ -172,7 +177,6 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         videoItemModel2.setVideoType(VideoItemModel.VideoType.VR);
         videoItemModel2.setThumbnailId(R.drawable.pariah);
         videoItemModels.add(videoItemModel2);
-
 
         videoItemModel2 = new VideoItemModel();
         videoItemModel2.setFavorite(false);
@@ -269,8 +273,11 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
         return videoItemModels;
     }
 
+    Menu menu;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;

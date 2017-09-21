@@ -22,7 +22,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
 
     ArrayList<VideoItemModel> videoItemModels;
     ConnectableObservable<Boolean> editObservable;
-    List<String> selectedIds = new ArrayList<>();
+    List<Integer> selectedIds = new ArrayList<>();
 
     public VideoViewAdapter(ArrayList<VideoItemModel> videoItemModels, HomeActivity homeActivity, ConnectableObservable<Boolean> booleanObservable) {
         this.videoItemModels = videoItemModels;
@@ -79,16 +79,14 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
             } else {
                 HomeActivity.videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(false);
                 videoItemModels.get(viewHolder.getAdapterPosition()).setVideoState(VideoItemModel.VideoState.UNFAVORITE_TRANSITION);
-                videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(
-                        false
-                );
+                videoItemModels.get(viewHolder.getAdapterPosition()).setFavorite(false);
             }
             notifyItemChanged(viewHolder.getAdapterPosition());
         }
     }
 
     @Override
-    public void onSelectChange(boolean checked, String id) {
+    public void onSelectChange(boolean checked, int id) {
         if (checked)
             selectedIds.add(id);
         else
@@ -100,6 +98,28 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
     @Override
     public boolean isSelectedVideo(String id) {
         return selectedIds.contains(id);
+    }
+
+    public void sendBulkDownloadRequest() {
+        for (VideoItemModel videoItemModel : videoItemModels) {
+            if (selectedIds.contains(videoItemModel.getVideoId()) && videoItemModel.getVideoState() != VideoItemModel.VideoState.DOWNLOADED) {
+                videoItemModel.setVideoState(VideoItemModel.VideoState.DOWNLOADING);
+            }
+        }
+
+        if (!videoItemModels.isEmpty())
+            notifyDataSetChanged();
+    }
+
+    public void bulkFavorite() {
+        for (VideoItemModel videoItemModel : videoItemModels) {
+            if (selectedIds.contains(videoItemModel.getVideoId()) && !videoItemModel.isFavorite()) {
+                videoItemModel.setFavorite(true);
+            }
+        }
+
+        if (!videoItemModels.isEmpty())
+            notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
