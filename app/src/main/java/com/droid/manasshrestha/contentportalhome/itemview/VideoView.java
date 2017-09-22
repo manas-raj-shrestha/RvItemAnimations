@@ -156,7 +156,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
                 break;
             case DOWNLOADED:
-                activateDownloadedState(true);
+                activateDownloadedState();
                 break;
             case DOWNLOAD_FAILED:
                 activateErrorState();
@@ -234,7 +234,7 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
     }
 
-    private void activateDownloadedState(boolean animate) {
+    private void activateDownloadedState() {
         videoModel.setDownloaded(true);
         videoModel.setVideoState(VideoItemModel.VideoState.DEFAULT);
         if (rvContainer.getChildCount() > initialViewCount) {
@@ -563,10 +563,6 @@ public class VideoView extends FrameLayout implements ViewStateListener {
             ivCheck.setVisibility(GONE);
         }
 
-    }
-
-    public void startFavoriteAnimation() {
-        addToFavorite();
     }
 
     public void setMultiSelectListener(MultiSelectListener multiSelectListener) {

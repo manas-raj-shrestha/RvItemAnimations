@@ -91,7 +91,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
         if (checked)
             selectedIds.add(id);
         else
-            selectedIds.remove(id);
+            selectedIds.remove(selectedIds.indexOf(id));
     }
 
     @Override
