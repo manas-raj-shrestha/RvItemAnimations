@@ -41,6 +41,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         VideoView videoView = (VideoView) holder.itemView;
         ((VideoView) holder.itemView).setVideoModel(videoItemModels.get(position), holder);
+        videoView.selectVideo(selectedIds.contains(videoItemModels.get(position).getVideoId()));
         videoView.setEditMode(((EditListener) (holder.itemView.getContext())).getEditStatus(), false);
     }
 
@@ -91,8 +92,6 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
             selectedIds.add(id);
         else
             selectedIds.remove(id);
-
-        Log.e("lists", selectedIds.toString());
     }
 
     @Override
@@ -101,25 +100,49 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.View
     }
 
     public void sendBulkDownloadRequest() {
-        for (VideoItemModel videoItemModel : videoItemModels) {
+        for (int i = 0; i < videoItemModels.size(); i++) {
+            VideoItemModel videoItemModel = videoItemModels.get(i);
             if (selectedIds.contains(videoItemModel.getVideoId()) && videoItemModel.getVideoState() != VideoItemModel.VideoState.DOWNLOADED) {
                 videoItemModel.setVideoState(VideoItemModel.VideoState.DOWNLOADING);
+                notifyItemChanged(i);
             }
         }
-
-        if (!videoItemModels.isEmpty())
-            notifyDataSetChanged();
     }
 
     public void bulkFavorite() {
-        for (VideoItemModel videoItemModel : videoItemModels) {
+        for (int i = 0; i < videoItemModels.size(); i++) {
+            VideoItemModel videoItemModel = videoItemModels.get(i);
             if (selectedIds.contains(videoItemModel.getVideoId()) && !videoItemModel.isFavorite()) {
                 videoItemModel.setFavorite(true);
+                notifyItemChanged(i);
             }
         }
+    }
 
-        if (!videoItemModels.isEmpty())
-            notifyDataSetChanged();
+    public void selectAll() {
+        for (VideoItemModel videoItemModel : videoItemModels)
+            if (!selectedIds.contains(videoItemModel.getVideoId()))
+                selectedIds.add(videoItemModel.getVideoId());
+
+        notifyDataSetChanged();
+    }
+
+    public void deselectAll() {
+        selectedIds.clear();
+
+        notifyDataSetChanged();
+    }
+
+    public void deleteSelected() {
+        for (int i = 0; i < videoItemModels.size(); i++) {
+            VideoItemModel itemModel = videoItemModels.get(i);
+            if (selectedIds.contains(itemModel.getVideoId())) {
+                videoItemModels.remove(itemModel);
+                notifyItemRemoved(i);
+                selectedIds.remove(selectedIds.indexOf(itemModel.getVideoId()));
+                i--;
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -2,11 +2,13 @@ package com.droid.manasshrestha.contentportalhome;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,11 +42,18 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
     boolean editModeOn;
     ObservableEmitter<Boolean> observableEmitter;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Home");
 
         videoItemModels = getTempDatas();
 
@@ -93,6 +102,17 @@ public class HomeActivity extends AppCompatActivity implements OnStartDragListen
                 break;
             case R.id.action_favorite:
                 demoAdapter.bulkFavorite();
+                break;
+
+            case R.id.action_select_all:
+                demoAdapter.selectAll();
+                break;
+            case R.id.action_deselect_all:
+                demoAdapter.deselectAll();
+                break;
+
+            case R.id.action_delete_selected:
+                demoAdapter.deleteSelected();
                 break;
 
         }

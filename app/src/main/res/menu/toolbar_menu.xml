@@ -9,19 +9,34 @@
         android:id="@+id/action_favorite"
         android:title="Favorite"
         android:icon="@drawable/ic_favorite_color"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:visible="false"
         android:id="@+id/action_download"
         android:title="Download"
         android:icon="@drawable/ic_file_download_white_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_edit"
         android:title="Edit"
         android:icon="@drawable/ic_edit"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_select_all"
+        android:title="Select All"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_deselect_all"
+        android:title="Deselect All"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_delete_selected"
+        android:title="Delete Selected"
+        app:showAsAction="collapseActionView" />
 
 </menu>

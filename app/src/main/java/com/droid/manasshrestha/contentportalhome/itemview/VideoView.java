@@ -565,12 +565,21 @@ public class VideoView extends FrameLayout implements ViewStateListener {
 
     }
 
-
     public void startFavoriteAnimation() {
         addToFavorite();
     }
 
     public void setMultiSelectListener(MultiSelectListener multiSelectListener) {
         this.multiSelectListener = multiSelectListener;
+    }
+
+    public void selectVideo(boolean select) {
+        if (select) {
+            ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_checked));
+            ivCheck.setTag(".");
+        } else {
+            ivCheck.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_check_unchecked));
+            ivCheck.setTag(null);
+        }
     }
 }
