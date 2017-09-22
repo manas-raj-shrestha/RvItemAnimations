@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -345,7 +346,18 @@ public class VideoView extends FrameLayout implements ViewStateListener {
     public void setVideoModel(VideoItemModel videoModel, final VideoViewAdapter.ViewHolder holder) {
         this.videoModel = videoModel;
 
+        Drawable img = null;
+
+        if (videoModel.getVideoType() == VideoItemModel.VideoType.VR) {
+            img = ContextCompat.getDrawable(getContext(), R.drawable.ic_cardboard);
+            img.setBounds(0, 0, (int) DisplayUtils.convertDpToPixel(18), (int) DisplayUtils.convertDpToPixel(17));
+        } else if (videoModel.getVideoType() == VideoItemModel.VideoType.V360) {
+            img = ContextCompat.getDrawable(getContext(), R.drawable.ic_360);
+            img.setBounds(0, 0, (int) DisplayUtils.convertDpToPixel(18), (int) DisplayUtils.convertDpToPixel(17));
+        }
+
         tvVideoName.setText(videoModel.getTitle());
+        tvVideoName.setCompoundDrawables(img, null, null, null);
         if (videoModel.isFavorite())
             ivFavorite.setVisibility(VISIBLE);
         else

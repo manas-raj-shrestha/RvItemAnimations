@@ -48,6 +48,8 @@
                     android:layout_height="20dp" />
 
                 <TextView
+                    android:drawablePadding="8dp"
+                    android:text="name"
                     android:textColor="@android:color/white"
                     android:id="@+id/tv_video_name"
                     android:layout_width="wrap_content"
